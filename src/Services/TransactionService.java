@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public class TransactionService {
     static long transactionID = 1000001;
-    public static List<Transaction> transaction = new ArrayList<>();
+        public static List<Transaction> transactions = new ArrayList<>();
 
     public static Transaction addTransaction(
             Customer customer,
@@ -42,7 +42,7 @@ public class TransactionService {
     public static void showTransactions(Customer customer) {
         Optional<Account> accountOptional = AccountService.findAccountDetails(customer);
         Account account = accountOptional.orElseThrow(() -> new AccountNotFoundException("Account Not found"));
-        transaction.stream().filter(transaction -> transaction.getAccountNumber() == account.getAccountNumber()).forEach(transaction -> {
+        transactions.stream().filter(transaction -> transaction.getAccountNumber() == account.getAccountNumber()).forEach(transaction -> {
             System.out.println("Transaction ID : " + transaction.getTransactionId());
             System.out.println("Type           : " + transaction.getType());
             System.out.println("Amount         : ₹" + transaction.getAmount());

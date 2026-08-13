@@ -1,7 +1,6 @@
 package Services;
 
 import model.Customer;
-import model.Transaction;
 import model.account.Account;
 import repository.InitialData;
 import exception.*;
@@ -59,7 +58,7 @@ public class AccountService {
         if (amt <= 0) throw new InvalidAmountException("Amount Must be greater than 0.");
         account.setBalance(account.getBalance() + amt);
         System.out.println("₹" + amt + " added to your Bank Account\n****  New Balance : ₹" + account.getBalance() + "  ****");
-        TransactionService.transaction.add(TransactionService.addTransaction(customer,account,"DEPOSIT",amt));
+        TransactionService.transactions.add(TransactionService.addTransaction(customer,account,"DEPOSIT",amt));
     }
 
     public static void withdrawMoney(Customer customer) {
@@ -76,7 +75,7 @@ public class AccountService {
         }
         account.setBalance(account.getBalance() - amt);
         System.out.println("₹" + amt + " have been withdrawn from your Bank Account\n****  New Balance : ₹" + account.getBalance() + "  ****");
-        TransactionService.transaction.add(TransactionService.addTransaction(customer,account,"WITHDRAW",amt));
+        TransactionService.transactions.add(TransactionService.addTransaction(customer,account,"WITHDRAW",amt));
     }
 
     public static void transferMoney(Customer customer) {
@@ -108,8 +107,8 @@ public class AccountService {
         System.out.println("*****Transaction Successful****");
         System.out.println("Sender's New Balance : **₹"+senderAcc.getBalance()+"**");
         System.out.println("Receiver's New Balance : **₹"+receiverAcc.getBalance()+"**");
-        TransactionService.transaction.add(TransactionService.addTransaction(customer,senderAcc,"TRANSFER_OUT",amt));
-        TransactionService.transaction.add(TransactionService.addTransaction(customer,receiverAcc,"TRANSFER_IN",amt));
+        TransactionService.transactions.add(TransactionService.addTransaction(customer,senderAcc,"TRANSFER_OUT",amt));
+        TransactionService.transactions.add(TransactionService.addTransaction(customer,receiverAcc,"TRANSFER_IN",amt));
     }
 
     public static Account findAccountViaAccountNum(long accNum) {
@@ -128,7 +127,7 @@ public class AccountService {
             throw new InvalidPinException("Invalid PIN.");
         }
 
-        System.out.println("Enter new PIN  : ");
+        System.out.print("Enter new PIN  : ");
         String newPin = inputHelper.readString();
 
         if (newPin.length() != 4) {
