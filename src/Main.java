@@ -1,6 +1,7 @@
 
 import Services.AccountService;
 import Services.CustomerService;
+import Services.TransactionService;
 import model.Customer;
 import exception.*;
 void main()  {
@@ -58,7 +59,7 @@ void main()  {
             case 2 -> {
                 // Check Balance
                 try {
-                    AccountService.checkBalance(customer.getCustomerId());
+                    AccountService.checkBalance(customer);
                 } catch (AccountNotFoundException e) {
                     System.err.println(e.getMessage());
                 }
@@ -67,7 +68,7 @@ void main()  {
             case 3 -> {
                 // Deposit Money
                 try {
-                    AccountService.depositMoney(customerId);
+                    AccountService.depositMoney(customer);
                 } catch (InvalidAmountException e) {
                     System.err.println(e.getMessage());
                 }
@@ -76,28 +77,37 @@ void main()  {
             case 4 -> {
                 // Withdraw Money
                 try {
-                    AccountService.withdrawMoney(customerId);
-                } catch (AccountNotFoundException e) {
-                    System.err.println(e.getMessage());
-                }
-                catch (InvalidAmountException e) {
-                    System.err.println(e.getMessage());
-                }
-                catch (InsufficientBalanceException e) {
+                    AccountService.withdrawMoney(customer);
+                } catch (Exception e) {
                     System.err.println(e.getMessage());
                 }
             }
 
             case 5 -> {
                 // Transfer Money
+                try {
+                    AccountService.transferMoney(customer);
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
+                }
             }
 
             case 6 -> {
                 // View Transaction History
+                try {
+                    TransactionService.showTransactions(customer);
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
+                }
             }
 
             case 7 -> {
-                // Change PIN
+                try {
+
+                AccountService.changePIN(customer);
+                }catch (Exception e){
+                    System.err.println(e.getMessage());
+                }
             }
 
             default -> System.out.println("Invalid choice!");
